@@ -59,6 +59,22 @@ If you choose to configure this plugin directly instead of using the [Homebridge
 
 For most people, I recommend using [Homebridge Configuration web UI](https://github.com/oznu/homebridge-config-ui-x) to configure this plugin rather than doing so directly. It's easier to use for most users, especially newer users, and less prone to typos, leading to other problems.
 
+### Advanced Configuration
+Specific devices may be disabled (hidden), and certain features may be disabled on a per-device basis or for all devices. The syntax is `Disable.{serial}`, `Disable.{serial}.{feature}`, or `Disable.{feature}`, where `{serial}` is the device serial number (printed in the log on startup) and `{feature}` is `Heater`, `Cooler`, `Dehumidifier`, or `Fan`. For example, if you only use cooling, set the following options to prevent the heating and dehumidifying functions from being offered:
+
+```js
+"platforms": [{
+    "platform": "Kumo",
+    ...
+    "simpleDuctless": false,
+    "options": [
+        "Disable.Heater",
+        "Disable.Dehumidifier"
+    ]
+}]
+```
+(Disabling features is not supported in "simple ductless" mode.)
+
 ### Troubleshooting
 
 1. Issue #45 (and others). If using directAccess, please ensure that the IP address assigned to your Kumo devices is static. The IP address is retrieved from the Kumo cloud at plugin startup and can become out of sync if the Wifi router reboots and assigns a new IP address. Until the Kumo cloud updates (which is unclear when this happens), the plugin will fail to connect.
